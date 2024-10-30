@@ -16,13 +16,13 @@ int main()
 
     obstacle::Obstacle obstacle;
 
-    float obstacleX = screenWidth / 2;
+    float obstacleX = screenWidth;
     float obstacleY = screenHeight / 2;
     float obstacleWidth = 20;
-    float obstacleHeight = screenHeight - obstacleY;
+    float obstacleHeight = 150;
 
     player::inItPlayer(player, { x , y }, width, width, speed);
-    obstacle::inItObstacle(obstacle, { obstacleX, obstacleY }, obstacleWidth, obstacleHeight);
+    obstacle::inItObstacle(obstacle, {obstacleX, obstacleY}, obstacleWidth, obstacleHeight);
 
     while (!WindowShouldClose())    
     {
@@ -38,12 +38,20 @@ int main()
             obstacle.hitBox.y = obstacleY;
         }
 
+        if (obstacle.hitBox.x <= 0)
+        {
+            obstacle.hitBox.x = obstacleX;
+            obstacle.hitBox.y = GetRandomValue(0, screenHeight - obstacle.hitBox.y);
+        }
+
         BeginDrawing();
 
         ClearBackground(RAYWHITE);
 
         player::drawPlayer(player);
         obstacle::drawObstacle(obstacle);
+
+        DrawText("0.1", screenWidth - MeasureText("0.1", 20) * 2, screenHeight - MeasureText("0.1", 20), 20, BLACK);
 
         EndDrawing();
         

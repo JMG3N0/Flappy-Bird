@@ -3,8 +3,10 @@
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\player.cpp" />
+    <ClCompile Include="src\obstacle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\player.h" />
+    <ClInclude Include="src\obstacle.h" />
   </ItemGroup>
 </Project>

@@ -16,12 +16,12 @@ void player::drawPlayer(Player player)
 
 void player::movePlayer(Player& player)
 {
-	if (IsKeyDown(KEY_W))
+	float gravity = 100.0f;
+	float jumpForce = -100;
+	if (IsKeyPressed(KEY_SPACE))
 	{
-		player.hitBox.y -= player.speed * GetFrameTime();
+		player.speed = jumpForce;
 	}
-	if (IsKeyDown(KEY_S))
-	{
-		player.hitBox.y += player.speed * GetFrameTime();
-	}
+	player.speed += gravity * GetFrameTime();
+	player.hitBox.y += player.speed * GetFrameTime();
 }

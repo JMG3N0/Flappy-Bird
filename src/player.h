@@ -14,4 +14,6 @@ void inItPlayer(Player& player, Vector2 pos, float width, float height, float sp
 void drawPlayer(Player player);
 
 void movePlayer(Player& player);
+
+void restartPlayer(Player& player);
 }

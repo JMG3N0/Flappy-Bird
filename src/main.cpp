@@ -2,10 +2,11 @@
 #include "player.h"
 #include "obstacle.h"
 
+const int screenWidth = 800;
+const int screenHeight = 450;
+
 int main()
 {
-	const int screenWidth = 800;
-	const int screenHeight = 450;
 	InitWindow(screenWidth, screenHeight, "Flappy Birds");
 
     player::Player player;
@@ -24,9 +25,9 @@ int main()
     player::inItPlayer(player, { x , y }, width, width, speed);
     obstacle::inItObstacle(obstacle, {obstacleX, obstacleY}, obstacleWidth, obstacleHeight);
 
-    while (!WindowShouldClose())    
+    while (!WindowShouldClose())
     {
-        
+
         player::movePlayer(player);
         obstacle::moveObstacle(obstacle);
 
@@ -36,6 +37,12 @@ int main()
             player.hitBox.y = y;
             obstacle.hitBox.x = obstacleX;
             obstacle.hitBox.y = obstacleY;
+        }
+        if (player.hitBox.y + player.hitBox.height >= screenHeight)
+        {
+            player::restartPlayer(player);
+            obstacle.hitBox.x = obstacleX;
+            obstacle.hitBox.y = GetRandomValue(0, screenHeight - obstacle.hitBox.y);
         }
 
         if (obstacle.hitBox.x <= 0)

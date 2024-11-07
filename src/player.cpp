@@ -1,5 +1,8 @@
 #include "player.h"
 
+extern const int screenWidth = 800;
+extern const int screenHeight = 450;
+
 void player::inItPlayer(Player& player, Vector2 pos, float width, float height, float speed)
 {
 	player.hitBox.x = pos.x;
@@ -24,4 +27,11 @@ void player::movePlayer(Player& player)
 	}
 	player.speed += gravity * GetFrameTime();
 	player.hitBox.y += player.speed * GetFrameTime();
+}
+
+void player::restartPlayer(Player& player)
+{
+	player.hitBox.x = static_cast<float>(screenWidth / 4);
+	player.hitBox.y = static_cast<float>(screenHeight / 2);
+	player.speed = 50;
 }

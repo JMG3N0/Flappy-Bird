@@ -1,12 +1,15 @@
 #include "player.h"
 
-void Player::inItPlayer(Player& player, Vector2 pos, float width, float height, float speed)
+void Player::inItPlayer(Player& player)
 {
-	player.hitBox.x = pos.x;
-	player.hitBox.y = pos.y;
-	player.hitBox.width = width;
-	player.hitBox.height = height;
-	player.speed = speed;
+	player.hitBox.x = static_cast<float>(GetScreenWidth() / 4);
+	player.hitBox.y = static_cast<float>(GetScreenHeight() / 2);
+	player.initPos = {player.hitBox.x, player.hitBox.y};
+	player.hitBox.width = 20;
+	player.hitBox.height = 20;
+	player.speed = 50;
+	player.initSpeed = 50;
+	player.jumpForce = -100.f;
 }
 
 void Player::drawPlayer(Player player)
@@ -17,10 +20,9 @@ void Player::drawPlayer(Player player)
 void Player::movePlayer(Player& player)
 {
 	float gravity = 100.0f;
-	float jumpForce = -100;
-	if (IsKeyPressed(KEY_SPACE))
+	if (IsKeyPressed(KEY_SPACE) || IsKeyPressed(KEY_W) || IsKeyPressed(KEY_UP))
 	{
-		player.speed = jumpForce;
+		player.speed = player.jumpForce;
 	}
 	player.speed += gravity * GetFrameTime();
 	player.hitBox.y += player.speed * GetFrameTime();
@@ -32,7 +34,6 @@ void Player::movePlayer(Player& player)
 
 void Player::restartPlayer(Player& player)
 {
-	player.hitBox.x = static_cast<float>(GetScreenWidth() / 4);
-	player.hitBox.y = static_cast<float>(GetScreenHeight() / 2);
-	player.speed = 50;
+	player.hitBox = {player.initPos.x, player.initPos.y};
+	player.speed = player.initSpeed;
 }

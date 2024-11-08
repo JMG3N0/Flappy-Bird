@@ -6,10 +6,13 @@ namespace Player
 struct Player
 {
     Rectangle hitBox;
+    Vector2 initPos;
     float speed;
+    float initSpeed;
+    float jumpForce;
 };
 
-void inItPlayer(Player& player, Vector2 pos, float width, float height, float speed);
+void inItPlayer(Player& player);
 
 void drawPlayer(Player player);
 

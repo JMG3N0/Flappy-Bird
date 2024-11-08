@@ -9,21 +9,15 @@ namespace Gameplay
 static Player::Player player;
 static Obstacle::Obstacle obstacle;
 
-static float obstacleX = 700;
-static float obstacleY = GetScreenHeight() / 2;
+
 
 void Gameplay::inIt()
 {
-	float speed = 50;
-	float x = GetScreenWidth() / 4;
-	float y = GetScreenHeight() / 2;
-	float width = 20;
 
-	float obstacleWidth = 20;
-	float obstacleHeight = 150;
+	
 
-	Player::inItPlayer(player, { x , y }, width, width, speed);
-	Obstacle::inItObstacle(obstacle, { obstacleX, obstacleY }, obstacleWidth, obstacleHeight);
+	Player::inItPlayer(player);
+	Obstacle::inItObstacle(obstacle);
 }
 
 void Gameplay::checkInput()
@@ -38,20 +32,17 @@ void Gameplay::update()
     if (CheckCollisionRecs(player.hitBox, obstacle.hitBox))
     {
         Player::restartPlayer(player);
-        obstacle.hitBox.x = obstacleX;
-        obstacle.hitBox.y = obstacleY;
+        Obstacle::restartObstacle(obstacle);
     }
     if (player.hitBox.y + player.hitBox.height >= GetScreenHeight())
     {
         Player::restartPlayer(player);
-        obstacle.hitBox.x = obstacleX;
-        obstacle.hitBox.y = GetRandomValue(0, GetScreenHeight() - obstacle.hitBox.y);
+        Obstacle::restartObstacle(obstacle);
     }
 
     if (obstacle.hitBox.x <= 0)
     {
-        obstacle.hitBox.x = obstacleX;
-        obstacle.hitBox.y = GetRandomValue(0, GetScreenHeight() - obstacle.hitBox.y);
+        Obstacle::restartObstacle(obstacle);
     }
 }
 void Gameplay::draw()

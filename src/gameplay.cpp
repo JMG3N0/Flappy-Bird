@@ -4,7 +4,8 @@
 #include "player.h"
 #include "obstacle.h"
 
-
+namespace Gameplay
+{
 static Player::Player player;
 static Obstacle::Obstacle obstacle;
 
@@ -59,4 +60,5 @@ void Gameplay::draw()
     Obstacle::drawObstacle(obstacle);
 
     DrawText("0.1", GetScreenWidth() - MeasureText("0.1", 20) * 2, GetScreenHeight() - MeasureText("0.1", 20), 20, BLACK);
+}
 }

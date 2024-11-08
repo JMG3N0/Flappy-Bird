@@ -27,6 +27,10 @@ void player::movePlayer(Player& player)
 	}
 	player.speed += gravity * GetFrameTime();
 	player.hitBox.y += player.speed * GetFrameTime();
+	if (player.hitBox.y < 0)
+	{
+		player.hitBox.y = 0;
+	}
 }
 
 void player::restartPlayer(Player& player)

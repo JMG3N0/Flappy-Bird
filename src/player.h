@@ -1,7 +1,7 @@
 #pragma once
 #include "raylib.h"
 
-namespace player
+namespace Player
 { 
 struct Player
 {

@@ -1,7 +1,7 @@
 #pragma once
 #include "raylib.h"
 
-namespace obstacle
+namespace Obstacle
 {
 	struct Obstacle
 	{

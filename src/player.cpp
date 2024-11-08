@@ -1,9 +1,6 @@
 #include "player.h"
 
-extern const int screenWidth = 800;
-extern const int screenHeight = 450;
-
-void player::inItPlayer(Player& player, Vector2 pos, float width, float height, float speed)
+void Player::inItPlayer(Player& player, Vector2 pos, float width, float height, float speed)
 {
 	player.hitBox.x = pos.x;
 	player.hitBox.y = pos.y;
@@ -12,12 +9,12 @@ void player::inItPlayer(Player& player, Vector2 pos, float width, float height, 
 	player.speed = speed;
 }
 
-void player::drawPlayer(Player player)
+void Player::drawPlayer(Player player)
 {
 	DrawRectangle(player.hitBox.x, player.hitBox.y, player.hitBox.width, player.hitBox.height, BLUE);
 }
 
-void player::movePlayer(Player& player)
+void Player::movePlayer(Player& player)
 {
 	float gravity = 100.0f;
 	float jumpForce = -100;
@@ -33,9 +30,9 @@ void player::movePlayer(Player& player)
 	}
 }
 
-void player::restartPlayer(Player& player)
+void Player::restartPlayer(Player& player)
 {
-	player.hitBox.x = static_cast<float>(screenWidth / 4);
-	player.hitBox.y = static_cast<float>(screenHeight / 2);
+	player.hitBox.x = static_cast<float>(GetScreenWidth() / 4);
+	player.hitBox.y = static_cast<float>(GetScreenHeight() / 2);
 	player.speed = 50;
 }

@@ -5,7 +5,8 @@ namespace Obstacle
 {
 	struct Obstacle
 	{
-		Rectangle hitBox;
+		Rectangle freeSpace;
+		Rectangle collisionSpace;
 		Vector2 initPos;
 		float speed;
 	};

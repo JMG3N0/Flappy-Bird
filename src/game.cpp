@@ -4,6 +4,8 @@
 
 #include "gameplay.h"
 
+
+
 namespace Game
 {
 static const int screenWidth = 800;
@@ -49,5 +51,11 @@ void runGame()
         update();
         draw();
     }
+
+   
+        Gameplay::unloadPlayer();
+    
+   
+    CloseWindow();
 }
 }

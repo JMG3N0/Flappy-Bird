@@ -11,22 +11,38 @@ namespace Game
 static const int screenWidth = 800;
 static const int screenHeight = 600;
 
+Menu menu;
+
 static void inIt()
 {
+    menu = Title;
     InitWindow(screenWidth, screenHeight, "Flappy Birds");
-    Gameplay::inIt();
+    
+    
 }
 
-static void checkInput()
-{
 
-    Gameplay::checkInput();
-
-}
 
 static void update()
 {
-    Gameplay::update();
+    switch (menu)
+    {
+    case Game::Title:
+        break;
+    case Game::Main:
+        break;
+    case Game::Credits:
+        break;
+    case Game::Game:
+        Gameplay::inIt();
+
+        Gameplay::update();
+        break;
+    default:
+        break;
+    }
+
+    
 }
 
 static void draw()
@@ -35,9 +51,25 @@ static void draw()
 
     ClearBackground(RAYWHITE);
 
-    Gameplay::draw();
+    switch (menu)
+    {
+    case Game::Title:
+        DrawText("Play", (GetScreenWidth() / 2), (GetScreenHeight() / 2), 90, BLUE);
+        break;
+    case Game::Main:
+        break;
+    case Game::Credits:
+        break;
+    case Game::Game:
+        Gameplay::draw();
+        break;
+    default:
+        break;
+    }
 
     EndDrawing();
+
+    
 
 }
 
@@ -45,17 +77,39 @@ void runGame()
 {
     inIt();
 
-    while (!WindowShouldClose())
-    {
-        checkInput();
-        update();
-        draw();
-    }
-
    
+    switch (menu)
+    {
+    case Game::Title:
+        draw();
+        break;
+
+    case Game::Main:
+        break;
+
+    case Game::Credits:
+        break;
+
+    case Game::Game:
+        Gameplay::inIt();
+        while (!WindowShouldClose())
+        {
+            Gameplay::checkInput();
+            Gameplay::update();
+            Gameplay::draw();
+        }
         Gameplay::unloadPlayer();
+        break;
+    default:
+        break;
+    }
     
    
-    CloseWindow();
+    
+    
+   
+   // CloseWindow();
 }
+
+
 }

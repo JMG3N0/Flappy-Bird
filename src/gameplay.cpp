@@ -23,6 +23,10 @@ void Gameplay::inIt()
 void Gameplay::checkInput()
 {
 	Player::movePlayer(player);
+    if (true)
+    {
+
+    }
 }
 
 bool CheckCollision(Rectangle player, Rectangle freeSpace, Rectangle collisionSpace)
@@ -65,7 +69,7 @@ void Gameplay::draw()
     Obstacle::drawObstacle(obstacle);
     Player::drawPlayer(player);
 
-    DrawText("0.1", GetScreenWidth() - MeasureText("0.1", 20) * 2, GetScreenHeight() - MeasureText("0.1", 20), 20, BLACK);
+   
 }
 
 void unloadPlayer()

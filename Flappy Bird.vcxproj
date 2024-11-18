@@ -119,6 +119,18 @@
       <Command>
       </Command>
     </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>"$(SolutionDir)script\copy.bat" "$(SolutionDir)assets" "$(OutDir)"</Command>
+    </PreBuildEvent>
+    <PreLinkEvent>
+      <Command>
+      </Command>
+    </PreLinkEvent>
+    <Bscmake />
+    <Bscmake>
+      <AdditionalOptions>
+      </AdditionalOptions>
+    </Bscmake>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>

@@ -19,13 +19,15 @@ void Obstacle::inItObstacle(Obstacle& obstacle)
 void Obstacle::drawObstacle(Obstacle obstacle)
 {
 
-	DrawRectangle(obstacle.collisionSpace.x, obstacle.collisionSpace.y, obstacle.collisionSpace.width, obstacle.collisionSpace.height, GREEN);
+	DrawRectangle(static_cast<int>(obstacle.collisionSpace.x), static_cast<int>(obstacle.collisionSpace.y), static_cast<int>(obstacle.collisionSpace.width), static_cast<int>(obstacle.collisionSpace.height), GREEN);
+	
+	
 
 #if _DEBUG
-		DrawRectangle(obstacle.freeSpace.x, obstacle.freeSpace.y, obstacle.freeSpace.width, obstacle.freeSpace.height, RED);
+		DrawRectangle(static_cast<int>(obstacle.collisionSpace.x), static_cast<int>(obstacle.collisionSpace.y), static_cast<int>(obstacle.collisionSpace.width), static_cast<int>(obstacle.collisionSpace.height), RED);
 #endif // _DEBUG
 
-	
+		DrawRectangle(static_cast<int>(obstacle.freeSpace.x), static_cast<int>(obstacle.freeSpace.y), static_cast<int>(obstacle.freeSpace.width), static_cast<int>(obstacle.freeSpace.height), WHITE);
 }
 
 void Obstacle::moveObstacle(Obstacle& obstacle)

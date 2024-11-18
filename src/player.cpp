@@ -12,7 +12,7 @@ void Player::inItPlayer(Player& player)
 	player.jumpForce = -100.f;
 	player.frameNumber = 0;
 
-	player.sprite = LoadTexture("res/png/player.png");
+	player.sprite = LoadTexture("res/player.png");
 
 }
 
@@ -43,7 +43,7 @@ void Player::movePlayer(Player& player)
 	{
 		player.frameNumber = 0;
 	}
-	if (IsKeyPressed(KEY_SPACE) || IsKeyPressed(KEY_W) || IsKeyPressed(KEY_UP))
+	if (IsKeyPressed(KEY_SPACE) || IsKeyPressed(KEY_W) || IsKeyPressed(KEY_UP) || IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
 	{
 		
 			

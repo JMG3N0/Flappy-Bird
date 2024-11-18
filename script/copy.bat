@@ -8,8 +8,8 @@ echo %dirToCopy%
 echo %targetDir%
 
 cd "%targetDir%"
-
-xcopy /y /s /e "%dirToCopy%" "%targetDir%"
+mkdir "res"
+xcopy /y /s /e "%dirToCopy%" "%targetDir%\res"
 
 pause
 REM cd "$(OutDir)"

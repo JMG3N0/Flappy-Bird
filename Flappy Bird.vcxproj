@@ -120,7 +120,7 @@
       </Command>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>"$(SolutionDir)script\copy.bat" "$(SolutionDir)assets" "$(OutDir)"</Command>
+      <Command>"$(SolutionDir)script\copy.bat" "$(SolutionDir)res" "$(OutDir)"</Command>
     </PreBuildEvent>
     <PreLinkEvent>
       <Command>

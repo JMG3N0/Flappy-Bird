@@ -14,7 +14,7 @@ namespace Obstacle
 
 	void inItObstacle(Obstacle& obstacle);
 
-	void drawObstacle(Obstacle obstacle);
+	void drawObstacle(Obstacle obstacle, Color colorAdd);
 
 	void moveObstacle(Obstacle& obstacle);
 

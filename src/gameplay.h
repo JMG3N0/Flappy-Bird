@@ -5,12 +5,12 @@
 namespace Gameplay
 {
 	
-	void inIt();
-	void checkInput();
-	void update();
-	void draw();
-	void unload();
-	bool isGameOver();
-	int gameOverScreen();
+	void inIt(bool multiplayer);
+	void checkInput(bool multiplayer);
+	void update(bool multiplayer);
+	void draw(bool multiplayer);
+	void unload(bool multiplayer);
+	bool isGameOver(bool multiplayer);
+	int gameOverScreen(bool multiplayer);
 
 }

@@ -1,4 +1,5 @@
 #include "obstacle.h"
+#include <iostream>
 
 
 void Obstacle::inItObstacle(Obstacle& obstacle)
@@ -17,11 +18,17 @@ void Obstacle::inItObstacle(Obstacle& obstacle)
 	obstacle.initSpeed = obstacle.speed;
 }
 
-void Obstacle::drawObstacle(Obstacle obstacle)
+void Obstacle::drawObstacle(Obstacle obstacle, Color colorAdd)
 {
 
-	DrawRectangle(static_cast<int>(obstacle.collisionSpace.x), static_cast<int>(obstacle.collisionSpace.y), static_cast<int>(obstacle.collisionSpace.width), static_cast<int>(obstacle.freeSpace.y), GREEN);
-	DrawRectangle(static_cast<int>(obstacle.collisionSpace.x), static_cast<int>(obstacle.freeSpace.y) + static_cast<int>(obstacle.freeSpace.height), static_cast<int>(obstacle.collisionSpace.width), static_cast<int>(obstacle.collisionSpace.height), GREEN);
+	int screenHeight = GetScreenHeight();
+	//Color color = SKYBLUE;
+	/*color.b -= colorAdd.b;
+	color.r -= colorAdd.r;
+	color.g -= colorAdd.g;*/
+
+	DrawRectangle(static_cast<int>(obstacle.collisionSpace.x), static_cast<int>(obstacle.collisionSpace.y), static_cast<int>(obstacle.collisionSpace.width), static_cast<int>(obstacle.freeSpace.y), SKYBLUE);
+	DrawRectangle(static_cast<int>(obstacle.collisionSpace.x), static_cast<int>(obstacle.freeSpace.y) + static_cast<int>(obstacle.freeSpace.height), static_cast<int>(obstacle.collisionSpace.width), static_cast<int>( screenHeight - (obstacle.freeSpace.height+obstacle.freeSpace.y)), SKYBLUE);
 	
 	
 
@@ -43,7 +50,11 @@ void Obstacle::moveObstacle(Obstacle& obstacle)
 
 void Obstacle::restartObstacle(Obstacle& obstacle)
 {
+	int screenHeight = GetScreenHeight();
+	float newPosY = static_cast<float>(rand() % screenHeight - obstacle.freeSpace.height)+ 40.0f;
+
 	obstacle.freeSpace.x = obstacle.initPos.x ;
 	obstacle.collisionSpace.x = obstacle.initPos.x;
-	obstacle.freeSpace.y = obstacle.initPos.y;
+	obstacle.freeSpace.y = newPosY ;
+
 }

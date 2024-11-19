@@ -9,6 +9,7 @@ namespace Obstacle
 		Rectangle collisionSpace;
 		Vector2 initPos;
 		float speed;
+		float initSpeed;
 	};
 
 	void inItObstacle(Obstacle& obstacle);

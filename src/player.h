@@ -12,15 +12,23 @@ struct Player
     float initSpeed;
     float jumpForce;
     int frameNumber;
+    int score;
+    int hiScore;
+    bool hasHiScore;
+    bool gameOver;
 };
 
 void inItPlayer(Player& player);
 
-void drawPlayer(Player player);
+void drawPlayer(Player player, Color colors);
 
 void movePlayer(Player& player);
 
 void restartPlayer(Player& player);
 
 void unload(Player& player);
+
+
+
+void showScore(Player player);
 }

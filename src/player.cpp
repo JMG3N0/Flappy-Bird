@@ -9,25 +9,32 @@ void Player::inItPlayer(Player& player)
 	player.hitBox.height = 32;
 	player.speed = 50;
 	player.initSpeed = 50;
-	player.jumpForce = -100.f;
+	player.jumpForce = -150.f;
 	player.frameNumber = 0;
+	player.score = 0;
+	if (player.hasHiScore == false)
+	{
+
+		player.hiScore = 0;
+	}
+	player.gameOver = false;
 
 	player.sprite = LoadTexture("res/player.png");
 
 }
 
-void Player::drawPlayer(Player player)
+void Player::drawPlayer(Player player, Color colors)
 {
 #if _DEBUG
 	DrawRectangle(static_cast<int>(player.hitBox.x), static_cast<int>(player.hitBox.y), static_cast<int>(player.hitBox.width), static_cast<int>(player.hitBox.height), BLUE);
 #endif // Debug
 	if (player.frameNumber == 0 || player.frameNumber == 2)
 	{
-		DrawTexturePro(player.sprite, { 0,0, static_cast<float>(player.sprite.width), (static_cast<float>(player.sprite.height)/2) }, player.hitBox, { 0,0 }, 0, WHITE);
+		DrawTexturePro(player.sprite, { 0,0, static_cast<float>(player.sprite.width), (static_cast<float>(player.sprite.height)/2) }, player.hitBox, { 0,0 }, 0, colors);
 	}
 	if (player.frameNumber == 1)
 	{
-		DrawTexturePro(player.sprite, { 0,16, static_cast<float>(player.sprite.width), (static_cast<float>(player.sprite.height)/2) }, player.hitBox, { 0,0 }, 0, WHITE);
+		DrawTexturePro(player.sprite, { 0,16, static_cast<float>(player.sprite.width), (static_cast<float>(player.sprite.height)/2) }, player.hitBox, { 0,0 }, 0, colors);
 	}
 	
 	
@@ -35,7 +42,7 @@ void Player::drawPlayer(Player player)
 
 void Player::movePlayer(Player& player)
 {
-	float gravity = 100.0f;
+	float gravity = 200.0f;
 
 	
 
@@ -43,7 +50,7 @@ void Player::movePlayer(Player& player)
 	{
 		player.frameNumber = 0;
 	}
-	if (IsKeyPressed(KEY_SPACE) || IsKeyPressed(KEY_W) || IsKeyPressed(KEY_UP) || IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+	if (IsKeyPressed(KEY_SPACE) || IsKeyPressed(KEY_W) || IsKeyPressed(KEY_UP) )
 	{
 		
 			
@@ -70,6 +77,8 @@ void Player::movePlayer(Player& player)
 	}
 }
 
+
+
 void Player::restartPlayer(Player& player)
 {
 	player.hitBox.x = player.initPos.x;
@@ -80,4 +89,13 @@ void Player::restartPlayer(Player& player)
 void Player::unload(Player& player)
 {
 	UnloadTexture(player.sprite);
+}
+
+
+void Player::showScore(Player player)
+{
+	int screenHeight = GetScreenHeight();
+	int screenWidth = GetScreenWidth();
+	DrawText(TextFormat("%d", player.score), (screenWidth / 2), (screenHeight / 2) - 80, 40, WHITE);
+
 }

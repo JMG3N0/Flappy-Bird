@@ -1,5 +1,7 @@
 #include "gameplay.h"
+
 #include "raylib.h"
+
 #include "player.h"
 #include "obstacle.h"
 

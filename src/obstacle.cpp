@@ -1,4 +1,5 @@
 #include "obstacle.h"
+
 #include <iostream>
 
 

@@ -13,7 +13,7 @@ and ended up forcing themselves to fly. Now you must help them reach the
 furthest away until they find a home.
 
 # Instalation
-You can download the executable [here](https://teonnn.itch.io/flappy-drake).
+You can download the executable [here](https://joan-mrc.itch.io/neomigration).
 
 Instalation steps:
 1. Download .zip

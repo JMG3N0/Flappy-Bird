@@ -8,15 +8,20 @@ namespace Gameplay
 static Player::Player player;
 static Player::Player player2;
 static Obstacle::Obstacle obstacle;
-
+static Sound fallDeath;
+static Sound collisionDeath;
+static Sound pointScore;
+static Sound gameOver;
 static Texture2D backGround;
 static Texture2D foreGround;
 static Texture2D midGround;
 static Color colors;
+static Font font;
 static float backGroundSpeed;
 static float midGroundSpeed;
 static float foreGroundSpeed;
 static bool dayToNight;
+
 
 
 void Gameplay::inIt(bool multiplayer)
@@ -30,15 +35,23 @@ void Gameplay::inIt(bool multiplayer)
         Player::inItPlayer(player2);
     }
 	Obstacle::inItObstacle(obstacle);
-    backGround = LoadTexture("res/Background.png");
-    midGround = LoadTexture("res/Midground.png");
-    foreGround = LoadTexture("res/Foreground.png");
+    backGround = LoadTexture("res/scenario/Background.png");
+    midGround = LoadTexture("res/scenario/Midground.png");
+    foreGround = LoadTexture("res/scenario/Foreground.png");
     backGroundSpeed = 0.0f;
     midGroundSpeed = 0.0f;
     foreGroundSpeed = 0.0f;
     colors = { 255, 255, 255, 255 };
     dayToNight = true;
-    
+    gameOver = LoadSound("res/sounds/effects/GameOver.ogg");
+    pointScore = LoadSound("res/sounds/effects/Point.ogg");
+    collisionDeath = LoadSound("res/sounds/effects/Wall.ogg");
+    fallDeath = LoadSound("res/sounds/effects/Fall.ogg");
+    SetSoundVolume(gameOver, 0.01f);
+    SetSoundVolume(pointScore, 0.01f);
+    SetSoundVolume(fallDeath, 0.02f);
+    SetSoundVolume(collisionDeath, 0.2f);
+    font = LoadFontEx("res/font/icecold.ttf", 32, 0, 250);
 }
 
 void Gameplay::checkInput(bool multiplayer)
@@ -52,15 +65,13 @@ bool CheckCollision(Rectangle player, Rectangle freeSpace, Rectangle collisionSp
     Rectangle collisionTop = {collisionSpace.x, collisionSpace.y, collisionSpace.width, freeSpace.y};
     Rectangle collisionLow = {collisionSpace.x, (freeSpace.y+freeSpace.height), collisionSpace.width, collisionSpace.height};
     
-        if (CheckCollisionRecs(player, collisionTop))
+        if (CheckCollisionRecs(player, collisionTop) || CheckCollisionRecs(player, collisionLow))
         {
+            
             return true;
         }
 
-        if (CheckCollisionRecs(player, collisionLow))
-        {
-            return true;
-        }
+        
     
 
    
@@ -76,10 +87,12 @@ bool Gameplay::isGameOver(bool multiplayer)
     {
         if (player.gameOver == true)
         {
+            
             return true;
         }
         else
         {
+            
             return false;
         }
     }
@@ -103,37 +116,39 @@ int Gameplay::gameOverScreen(bool multiplayer)
     int screenWidth = GetScreenWidth();
     Vector2 mousePos = GetMousePosition();
 
+    
+
     DrawRectangle((screenWidth / 4), (screenHeight / 4), 400, 300, BLACK);
-    DrawText("Game Over", (screenWidth / 2) - 150, (screenHeight / 4) + 20, 60, WHITE);
+    DrawTextEx(font, "Game Over", { static_cast<float>(screenWidth / 2) - 180, static_cast<float>(screenHeight / 4) + 20 }, 60, 1.0f, WHITE);
     if (multiplayer == true)
     {
         if (player.score > player2.score)
         {
-            DrawText(TextFormat("  P1 Score: %d", player.score), (screenWidth / 2) - 110, (screenHeight / 2) - 60, 30, RED);
+            DrawTextEx(font, TextFormat("  P1 Score: %d", player.score), { static_cast<float>(screenWidth / 2) - 120, static_cast<float>(screenHeight / 2) - 60 }, 30, 1.0f, RED);
         }
         else if (player2.score > player.score)
         {
-            DrawText(TextFormat("  P2 Score: %d", player2.score), (screenWidth / 2) - 110, (screenHeight / 2) - 60, 30, DARKBLUE);
+            DrawTextEx(font, TextFormat("  P2 Score: %d", player2.score), { static_cast<float>(screenWidth / 2) - 120, static_cast<float>(screenHeight / 2) - 60 }, 30, 1.0f, DARKBLUE);
         }
         else if (player.score == player2.score)
         {
-            DrawText(TextFormat("Your Score: %d", player.score), (screenWidth / 2) - 110, (screenHeight / 2) - 60, 30, WHITE);
+            DrawTextEx(font, TextFormat("Your Score: %d", player.score), { static_cast<float>(screenWidth / 2) - 120, static_cast<float>(screenHeight / 2) - 60 }, 30, 1.0f, WHITE);
         }
         
     }
     else
     {
-        DrawText(TextFormat("Your Score: %d", player.score), (screenWidth / 2) - 110, (screenHeight / 2) - 60, 30, WHITE);
+        DrawTextEx(font, TextFormat("Your Score: %d", player.score), { static_cast<float>(screenWidth / 2) - 120, static_cast<float>(screenHeight / 2) - 60 }, 30, 1.0f, WHITE);
     }
-    DrawText(TextFormat("High Score: %d", player.hiScore), (screenWidth / 2) - 80, (screenHeight / 2) - 30, 25, WHITE);
-    DrawText("Retry", (screenWidth / 2) - 40, (screenHeight / 2) + 15, 20, WHITE);
-    DrawText("Return to Main Menu", (screenWidth / 2) - 110, (screenHeight / 2) + 50, 20, WHITE);
-    DrawText("Exit Game", (screenWidth / 2) - 50, (screenHeight / 2) + 90, 20, WHITE);
+    DrawTextEx(font, TextFormat("High Score: %d", player.hiScore), { static_cast<float>(screenWidth / 2) - 90, static_cast<float>(screenHeight / 2) - 30 }, 25, 1.0f, WHITE);
+    DrawTextEx(font, "Retry", { (static_cast<float>(screenWidth) / 2) - 30, (static_cast<float>(screenWidth) / 2) - 90 }, 20, 1.0f, WHITE);
+    DrawTextEx(font, "Return to Main Menu", { (static_cast<float>(screenWidth) / 2) - 115, (static_cast<float>(screenWidth) / 2) - 55 }, 20, 1.0f, WHITE);
+    DrawTextEx(font, "Exit Game", { (static_cast<float>(screenWidth) / 2) - 55, (static_cast<float>(screenHeight) / 2) + 80 }, 20, 1.0f, WHITE);
     if (mousePos.x <= screenWidth / 2 + 120 && mousePos.x >= screenWidth / 2 - 120)
     {
-        if (mousePos.y >= ((screenHeight / 2) - 5) && mousePos.y <= ((screenHeight / 2) + 25))
+        if (mousePos.y >= ((screenHeight / 2) - 5) && mousePos.y <= ((screenHeight / 2) + 20))
         {
-            DrawText("Retry", (screenWidth / 2) - 40, (screenHeight / 2) + 15, 20, RED);
+            DrawTextEx(font, "Retry", { (static_cast<float>(screenWidth) / 2) - 30, (static_cast<float>(screenWidth) / 2) - 90 }, 20, 1.0f, RED);
             if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
             {
                 player.gameOver = false;
@@ -143,23 +158,25 @@ int Gameplay::gameOverScreen(bool multiplayer)
                     player.score = 0;
                 }
                 player.score = 0;
+                
                 return 0;
             }
         }
         if (mousePos.y >= ((screenHeight / 2) + 35) - 10 && mousePos.y <= ((screenHeight / 2) + 45) + 15)
         {
-            DrawText("Return to Main Menu", (screenWidth / 2) - 110, (screenHeight / 2) + 50, 20, RED);
+            DrawTextEx(font, "Return to Main Menu", { (static_cast<float>(screenWidth) / 2) - 115, (static_cast<float>(screenWidth) / 2) - 55 }, 20, 1.0f, RED);
             if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
             {
+                
                 return 1;
             }
         }
         if (mousePos.y >= ((screenHeight / 2) + 80) - 15 && mousePos.y <= ((screenHeight / 2) + 85) + 25)
         {
-            DrawText("Exit Game", (screenWidth / 2) - 50, (screenHeight / 2) + 90, 20, RED);
+            DrawTextEx(font, "Exit Game", { (static_cast<float>(screenWidth) / 2) - 55, (static_cast<float>(screenHeight) / 2) + 80 }, 20, 1.0f, RED);
             if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
             {
-
+                
                 CloseWindow();
             }
         }
@@ -196,6 +213,14 @@ void Gameplay::update(bool multiplayer)
 
             if (CheckCollision(player.hitBox, obstacle.freeSpace, obstacle.collisionSpace) || player.hitBox.y + player.hitBox.height >= static_cast<float>(GetScreenHeight()))
             {
+                if (player.hitBox.y + player.hitBox.height == static_cast<float>(GetScreenHeight()) - 1.0f)
+                {
+                    PlaySound(fallDeath);
+                }
+                if(CheckCollision(player.hitBox, obstacle.freeSpace, obstacle.collisionSpace))
+                {
+                    PlaySound(collisionDeath);
+                }
                 Player::restartPlayer(player);
                 Obstacle::restartObstacle(obstacle);
                 backGroundSpeed = 0.0f;
@@ -211,7 +236,8 @@ void Gameplay::update(bool multiplayer)
 
                 //  player.score = 0;
                 player.gameOver = true;
-
+                PlaySound(fallDeath);
+                PlaySound(gameOver);
                 obstacle.speed = obstacle.initSpeed;
 
             }
@@ -221,9 +247,17 @@ void Gameplay::update(bool multiplayer)
 
                 if (CheckCollision(player.hitBox, obstacle.freeSpace, obstacle.collisionSpace) || player.hitBox.y + player.hitBox.height >= static_cast<float>(GetScreenHeight()))
                 {
+                    if (player.gameOver == false)
+                    {
+                        if (CheckCollision(player.hitBox, obstacle.freeSpace, obstacle.collisionSpace))
+                        {
+                            PlaySound(collisionDeath);
+                        }
+                    }
                     
                     
                     
+
                     if (player.score > player.hiScore)
                     {
                         player.hiScore = player.score;
@@ -242,6 +276,14 @@ void Gameplay::update(bool multiplayer)
                 if (CheckCollision(player2.hitBox, obstacle.freeSpace, obstacle.collisionSpace) || player2.hitBox.y + player2.hitBox.height >= static_cast<float>(GetScreenHeight()))
                 {
                     
+                    if (player.gameOver == false)
+                    {
+                        if (CheckCollision(player2.hitBox, obstacle.freeSpace, obstacle.collisionSpace))
+                        {
+                            PlaySound(collisionDeath);
+                        }
+                    }
+
                     if (player2.score > player2.hiScore)
                     {
                         player2.hiScore = player2.score;
@@ -260,6 +302,8 @@ void Gameplay::update(bool multiplayer)
                 }
                 if (player.gameOver == true && player2.gameOver == true)
                 {
+                    PlaySound(fallDeath);
+                    PlaySound(gameOver);
                     Player::restartPlayer(player);
                     Player::restartPlayer(player2);
                     Obstacle::restartObstacle(obstacle);
@@ -308,12 +352,14 @@ void Gameplay::update(bool multiplayer)
 
             if (player.gameOver == false)
             {
+                PlaySound(pointScore);
                 player.score++;
             }
             if (multiplayer == true)
             {
                 if (player2.gameOver == false)
                 {
+                    PlaySound(pointScore);
                     player2.score++;
                 }
             }
@@ -369,6 +415,10 @@ void unload(bool multiplayer)
     UnloadTexture(backGround);
     UnloadTexture(foreGround);
     UnloadTexture(midGround);
-    
+    UnloadSound(gameOver);
+    UnloadSound(collisionDeath);
+    UnloadSound(fallDeath);
+    UnloadSound(pointScore);
+    UnloadFont(font);
 }
 }

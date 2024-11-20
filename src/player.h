@@ -5,6 +5,7 @@ namespace Player
 { 
 struct Player
 {
+    Sound wingFlap;
     Texture2D sprite;
     Rectangle hitBox;
     Vector2 initPos;

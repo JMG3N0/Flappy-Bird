@@ -20,7 +20,8 @@ void Player::inItPlayer(Player& player)
 	player.gameOver = false;
 	player.active = true;
 	player.sprite = LoadTexture("res/player.png");
-
+	player.wingFlap = LoadSound("res/sounds/effects/Flapwing.ogg");
+	SetSoundVolume(player.wingFlap, 0.01f);
 }
 
 void Player::drawPlayer(Player player, Color colors)
@@ -28,8 +29,7 @@ void Player::drawPlayer(Player player, Color colors)
 #if _DEBUG
 	DrawRectangle(static_cast<int>(player.hitBox.x), static_cast<int>(player.hitBox.y), static_cast<int>(player.hitBox.width), static_cast<int>(player.hitBox.height), BLUE);
 #endif // Debug
-	if (player.gameOver == false)
-	{
+	
 
 
 		if (player.frameNumber == 0 || player.frameNumber == 2)
@@ -40,7 +40,7 @@ void Player::drawPlayer(Player player, Color colors)
 		{
 			DrawTexturePro(player.sprite, { 0,16, static_cast<float>(player.sprite.width), (static_cast<float>(player.sprite.height) / 2) }, player.hitBox, { 0,0 }, 0, colors);
 		}
-	}
+	
 	
 }
 
@@ -57,13 +57,15 @@ void Player::movePlayer(Player& player, Player& player2, bool multiplayer)
 
 		if (IsKeyPressed(KEY_UP) && player2.gameOver == false)
 		{
-
+			
 			if (player2.frameNumber == 1)
 			{
+				
 				player2.frameNumber = 0;
 			}
 			else
 			{
+				PlaySound(player.wingFlap);
 				player2.speed = player2.jumpForce;
 				player2.frameNumber = 1;
 			}
@@ -86,16 +88,18 @@ void Player::movePlayer(Player& player, Player& player2, bool multiplayer)
 	if (IsKeyPressed(KEY_W) && player.gameOver == false)
 	{
 		
-			
+		
 		
 		
 
 		if (player.frameNumber == 1)
 		{
+			
 			player.frameNumber = 0;
 		}
 		else
 		{
+			PlaySound(player.wingFlap);
 			player.speed = player.jumpForce;
 			player.frameNumber = 1;
 		}
@@ -124,7 +128,7 @@ void Player::restartPlayer(Player& player)
 void Player::unload(Player& player)
 {
 	UnloadTexture(player.sprite);
-	
+	UnloadSound(player.wingFlap);
 }
 
 
